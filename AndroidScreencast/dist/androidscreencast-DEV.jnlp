@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="DEV" encoding="utf-8"?>
 <jnlp spec="0.2 1.0"
       codebase="https://github.com/CloudCom/androidscreencast/blob/master/AndroidScreencast/dist/"
-      href="androidscreencast.jnlp">
+      href="androidscreencast-DEV.jnlp">
    <information> 
       <title>Android Screencast</title> 
       <vendor>Alexandre Thiel</vendor>
@@ -15,8 +15,8 @@
    <resources>
       <j2se version="1.5+" href="http://java.sun.com/products/autodl/j2se"/>
       <j2se version="1.5+"/>
-      <jar href="androidscreencast.jar" main="true" download="eager"/>
-      <jar href="ddmlib.jar" main="false" download="eager"/>
+      <jar href="androidscreencast-DEV.jar" main="true" download="eager"/>
+      <jar href="ddmlib-DEV.jar" main="false" download="eager"/>
    </resources>
    <application-desc main-class="net.srcz.android.screencast.Main"/>
    <security>
