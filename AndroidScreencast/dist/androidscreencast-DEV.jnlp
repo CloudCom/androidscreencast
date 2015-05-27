@@ -1,6 +1,6 @@
 <?xml version="DEV" encoding="utf-8"?>
 <jnlp spec="0.2 1.0"
-      codebase="https://github.com/CloudCom/androidscreencast/blob/master/AndroidScreencast/dist/"
+      codebase="https://cdn.rawgit.com/CloudCom/androidscreencast/master/AndroidScreencast/dist/"
       href="androidscreencast-DEV.jnlp">
    <information> 
       <title>Android Screencast</title> 
