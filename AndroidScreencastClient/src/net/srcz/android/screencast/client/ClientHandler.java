@@ -9,13 +9,22 @@ import java.net.Socket;
 import java.util.Arrays;
 
 import android.app.Instrumentation;
+import android.os.IBinder;
 import android.os.RemoteException;
+import android.os.ServiceManager;
 import android.os.SystemClock;
+import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.hardware.input.IInputManager;
 
 public class ClientHandler {
 	final Instrumentation i = new Instrumentation();
+	
+	IBinder imBinder = ServiceManager.getService("input");
+	final IInputManager im = IInputManager.Stub.asInterface(imBinder);
+	
+	private static final int INPUT_MANAGER_INJECT_INPUT_EVENT_MODE_WAIT_FOR_FINISH = 2;
 	
     Socket s;
 
@@ -101,15 +110,22 @@ public class ClientHandler {
 			return;
 		}
 		if(type.equals("pointer")) {
-			i.sendPointerSync(getMotionEvent(paramList));
+			MotionEvent motionEvent = getMotionEvent(paramList);
+			motionEvent.setSource(InputDevice.SOURCE_MOUSE);
+			//i.sendPointerSync(getMotionEvent(paramList));
+			im.injectInputEvent(motionEvent, INPUT_MANAGER_INJECT_INPUT_EVENT_MODE_WAIT_FOR_FINISH);
 			return;
 		}
 		if(type.equals("key")) {
-			i.sendKeySync(getKeyEvent(paramList));
+			//i.sendKeySync(getKeyEvent(paramList));
+			im.injectInputEvent(getKeyEvent(paramList), INPUT_MANAGER_INJECT_INPUT_EVENT_MODE_WAIT_FOR_FINISH);
 			return;
 		}
 		if(type.equals("trackball")) {
-			i.sendTrackballEventSync(getMotionEvent(paramList));
+			MotionEvent motionEvent = getMotionEvent(paramList);
+			motionEvent.setSource(InputDevice.SOURCE_TRACKBALL);
+			//i.sendTrackballEventSync(getMotionEvent(paramList));
+			im.injectInputEvent(motionEvent, INPUT_MANAGER_INJECT_INPUT_EVENT_MODE_WAIT_FOR_FINISH);
 			return;
 		}
 		
