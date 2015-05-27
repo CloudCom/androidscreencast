@@ -11,7 +11,7 @@
   <property name="mainjar" value="${ant.project.name}-${version}.jar"/>
   <property name="launcher" value="${ant.project.name}-${version}.jnlp"/>
   <property name="ddmlib" value="ddmlib-${version}.jar"/>
-  <property name="sdk-ddmlib" value="${android.sdk}/tools/lib/ddmlib.jar"/>
+  <property name="sdk-ddmlib" value="ddmlib.jar"/>
 
   <target name="init">
     <!-- Create the time stamp -->
