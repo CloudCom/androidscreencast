@@ -6,3 +6,4 @@ adb push MyInjectEventApp.jar /data/
 del classes.dex
 rem del MyInjectEventApp.jar
 move MyInjectEventApp.jar ../AndroidScreencast/
+copy ../AndroidScreencast/MyInjectEventApp.jar ../AndroidScreencast/src

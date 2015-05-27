@@ -6,17 +6,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.Arrays;
 
-import android.os.IBinder;
+import android.app.Instrumentation;
 import android.os.RemoteException;
-import android.os.ServiceManager;
-import android.view.IWindowManager;
+import android.os.SystemClock;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 public class ClientHandler {
-	IBinder wmbinder = ServiceManager.getService( "window" );
-	final IWindowManager wm = IWindowManager.Stub.asInterface( wmbinder );
+	final Instrumentation i = new Instrumentation();
+	
     Socket s;
 
 	public ClientHandler(Socket s) throws IOException, RemoteException {
@@ -92,6 +92,8 @@ public class ClientHandler {
 	}
 	
 	private void handleCommand(String line) throws RemoteException {
+		System.out.println("handleCommand: " + line);
+		
 		String[] paramList = line.split("/");
 		String type = paramList[0];
 		if(type.equals("quit")) {
@@ -99,15 +101,15 @@ public class ClientHandler {
 			return;
 		}
 		if(type.equals("pointer")) {
-			wm.injectPointerEvent(getMotionEvent(paramList), false);
+			i.sendPointerSync(getMotionEvent(paramList));
 			return;
 		}
 		if(type.equals("key")) {
-			wm.injectKeyEvent(getKeyEvent(paramList), false);
+			i.sendKeySync(getKeyEvent(paramList));
 			return;
 		}
 		if(type.equals("trackball")) {
-			wm.injectTrackballEvent(getMotionEvent(paramList), false);
+			i.sendTrackballEventSync(getMotionEvent(paramList));
 			return;
 		}
 		
@@ -116,9 +118,11 @@ public class ClientHandler {
 	}
 	
     private static MotionEvent getMotionEvent(String[] args) {
-    	int i = 1;
-    	long downTime = Long.parseLong(args[i++]);
-    	long eventTime = Long.parseLong(args[i++]);
+    	int i = 3;
+    	System.out.println("getMotionEvent: " + Arrays.asList(args));
+    	
+    	long downTime = SystemClock.uptimeMillis(); //Long.parseLong(args[i++]);
+    	long eventTime = SystemClock.uptimeMillis(); //Long.parseLong(args[i++]);
     	int action = Integer.parseInt(args[i++]);
     	float x = Float.parseFloat(args[i++]);
     	float y = Float.parseFloat(args[i++]);
